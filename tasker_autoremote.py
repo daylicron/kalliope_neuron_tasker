@@ -17,12 +17,15 @@ class Tasker_autoremote(NeuronModule):
         self.message = kwargs.get('message', None)
         self.password = kwargs.get('password', None)
 
-        # check parameters
         if self._is_parameters_ok():
             # create the payload
             data = {'key': self.key,
-                    'message': self.message,
-                    'password': self.password}
+                    'message': self.message}
+
+            # Add password to data if set
+            if self.password != None:
+                data.update({ 'password': self.password})
+
             url = "https://autoremotejoaomgcd.appspot.com/sendmessage"
             # post
             r = requests.post(url, data=data)
